@@ -3,10 +3,6 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import SecureLS from "secure-ls";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { routes } from "../routes";
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
 export default function NavigationBar() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -55,7 +51,6 @@ export default function NavigationBar() {
         return null;
       }
     });
-  console.log(user);
 
   return (
     <>
@@ -66,11 +61,7 @@ export default function NavigationBar() {
               <div className="flex h-16 items-center justify-between">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
-                    <img
-                      className="h-8 w-8"
-                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                      alt="Your Company"
-                    />
+                    <span className="font-bold text-primary">zPlatform!</span>
                   </div>
                   <div className="hidden md:block">
                     <div className="ml-10 flex items-baseline space-x-4">
@@ -86,7 +77,7 @@ export default function NavigationBar() {
                     >
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">View notifications</span>
-                      {/* <BellIcon className="h-6 w-6" aria-hidden="true" /> */}
+
                       <></>
                     </button>
 
@@ -145,10 +136,10 @@ export default function NavigationBar() {
                     <span className="absolute -inset-0.5" />
                     <span className="sr-only">Open main menu</span>
                     {open ? (
-                      // <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+
                       <></>
                     ) : (
-                      // <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+
                       <></>
                     )}
                   </Disclosure.Button>
@@ -184,7 +175,8 @@ export default function NavigationBar() {
                   </div>
                   <div className="ml-3">
                     <div className="text-base font-medium leading-none text-white">
-                      {user.profile && user.profile.firstName} {user.profile && user.profile.lastName}
+                      {user.profile && user.profile.firstName}{" "}
+                      {user.profile && user.profile.lastName}
                     </div>
                     <div className="text-sm font-medium leading-none text-gray-400">
                       {user.email}

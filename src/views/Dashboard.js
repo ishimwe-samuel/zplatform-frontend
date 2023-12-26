@@ -39,7 +39,14 @@ export default function Dashboard() {
         navigate("/login", { replace: true });
       });
   };
-
+useEffect(()=>{
+  return ()=>{
+    if (!ls.get('token')) {
+      ls.clear()
+      navigate('/login',{replace:true})
+    }
+  }
+},[])
   return (
     <>
       <div className="min-h-full">

@@ -3,6 +3,7 @@ import Dashboard from "./views/Dashboard";
 import Login from "./views/Login";
 import { Route, Routes } from "react-router-dom";
 import UsersList from "./views/UsersList";
+import UserDetails from "./views/UserDetails";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route element={<Dashboard />} exact path="/" />
         <Route element={<Dashboard />} exact path="/:token/:userId" />
         <Route element={<UsersList />} exact path="/users" />
+        <Route element={<UserDetails />} exact path="/users/:userId/" />
       </Routes>
     </div>
   );
