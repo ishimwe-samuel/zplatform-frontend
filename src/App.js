@@ -12,28 +12,24 @@ import ResetPassword from "./views/ResetPassword";
 import MFAOTP from "./views/MFAOTP";
 
 function App() {
-  let ls = new SecureLS({
-    encodingType: "aes",
-    encryptionSecret: process.env.REACT_APP_SECRET_KEY,
-  });
-  let user = ls.get("user");
   return (
     <div className="App">
       <Routes>
         <Route element={<SignIn />} exact path="/signin" />
         <Route element={<SignUp />} exact path="/signup" />
         <Route element={<ForgotPassword />} exact path="/forgot-password" />
-        <Route element={<ResetPassword />} exact path="/reset-password/:token/:userId" />
-        <Route element={<OTP />} exact path="/otp" />
-        <Route element={<MFAOTP />} exact path="/signin/otp" />
-        <Route element={<Dashboard />} exact path="/" />
-        <Route element={<Dashboard />} exact path="/:token/:userId" />
-        {user && user.admin && (
-          <>
-            <Route element={<UsersList />} exact path="/users" />
-            <Route element={<UserDetails />} exact path="/users/:userId/" />
-          </>
-        )}
+        <Route
+          element={<ResetPassword />}
+          exact
+          path="/reset-password/:token/:userId"
+        />
+        <Route element={<OTP />} path="/otp" />
+        <Route element={<MFAOTP />} path="/signin/otp" />
+        <Route element={<Dashboard />} path="/" />
+        <Route element={<Dashboard />} path="/:token/:userId" />
+
+        <Route element={<UsersList />} path="/users" />
+        <Route element={<UserDetails />} path="/users/:userId/" />
       </Routes>
     </div>
   );
