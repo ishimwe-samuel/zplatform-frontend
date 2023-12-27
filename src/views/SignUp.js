@@ -6,10 +6,12 @@ import axios from "../utils/axios";
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState();
 
   const navigate = useNavigate();
   const onSignUp = (e) => {
     e.preventDefault();
+    setError()
     axios
       .post("/auth/sign-up/", JSON.stringify({ email, password }))
       .then((res) => {
@@ -17,9 +19,13 @@ const SignUp = () => {
           encodingType: "aes",
           encryptionSecret: process.env.REACT_APP_SECRET_KEY,
         });
-        ls.set("token", res.data.token);
-        ls.set("user", res.data.user);
-        navigate("/", { replace: true });
+        ls.set("userId", res.data.id);
+        navigate("/otp", { replace: true });
+      })
+      .catch((err) => {
+        if (err.response) {
+          setError(err.response.data.error);
+        }
       });
   };
   return (
@@ -74,11 +80,13 @@ const SignUp = () => {
                     required=""
                   />
                 </div>
+                {error && <p class="text-red-500 text-xs italic">{error}</p>}
+
                 <button
                   type="submit"
                   className="bg-primary/80 hover:bg-primary text-white w-full dark:text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
-                  Sign in
+                  Sign up
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Don’t have an account yet?{" "}
