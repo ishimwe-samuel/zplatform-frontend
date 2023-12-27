@@ -2,16 +2,19 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import SecureLS from "secure-ls";
 import axios from "../utils/axios";
+import Spinner from "../Components/Spinner";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
   const onSignUp = (e) => {
     e.preventDefault();
-    setError()
+    setError();
+    setIsLoading(true)
     axios
       .post("/auth/sign-up/", JSON.stringify({ email, password }))
       .then((res) => {
@@ -20,9 +23,12 @@ const SignUp = () => {
           encryptionSecret: process.env.REACT_APP_SECRET_KEY,
         });
         ls.set("userId", res.data.id);
+        setIsLoading(false)
         navigate("/otp", { replace: true });
       })
       .catch((err) => {
+        setIsLoading(false)
+
         if (err.response) {
           setError(err.response.data.error);
         }
@@ -84,12 +90,12 @@ const SignUp = () => {
 
                 <button
                   type="submit"
-                  className="bg-primary/80 hover:bg-primary text-white w-full dark:text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  className="flex gap-2 justify-center bg-primary/80 hover:bg-primary text-white w-full dark:text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
-                  Sign up
+                  Sign up {isLoading && <Spinner />}
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                  Already have an account?
+                  Already have an account?{" "}
                   <Link
                     to={"/signin"}
                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"

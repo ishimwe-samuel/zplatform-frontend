@@ -87,14 +87,13 @@ export default function NavigationBar() {
                         <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                           <span className="absolute -inset-1.5" />
                           <span className="sr-only">Open user menu</span>
-                          <img
-                            className="h-8 w-8 rounded-full"
-                            src={
-                              user.profile &&
-                              process.env.REACT_APP_BASE_API_URL + user.profile.profilePicture
-                            }
-                            alt=""
-                          />
+                          {user.profile && (
+                            <img
+                              className="h-8 w-8 rounded-full"
+                              src={`${process.env.REACT_APP_BASE_API_URL}api/${user.profile.profilePicture}`}
+                              alt=""
+                            />
+                          )}
                         </Menu.Button>
                       </div>
                       <Transition
@@ -134,13 +133,7 @@ export default function NavigationBar() {
                   <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                     <span className="absolute -inset-0.5" />
                     <span className="sr-only">Open main menu</span>
-                    {open ? (
-
-                      <></>
-                    ) : (
-
-                      <></>
-                    )}
+                    {open ? <></> : <></>}
                   </Disclosure.Button>
                 </div>
               </div>

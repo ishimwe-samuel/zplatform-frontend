@@ -58,10 +58,7 @@ export default function UserDetails() {
                   <div
                     className="relative border flex h-32 items-center mb-6 p-6 rounded-full w-32 cursor-pointer"
                     style={{
-                      backgroundImage: `url(${
-                        process.env.REACT_APP_BASE_API_URL +
-                        user.profile?.profilePicture
-                      })`,
+                      backgroundImage: `url(${process.env.REACT_APP_BASE_API_URL}api/${user.profile?.profilePicture})`,
                       backgroundSize: "100%",
                       backgroundRepeat: "no-repeat",
                       backgroundPosition: "center",
@@ -139,10 +136,8 @@ export default function UserDetails() {
                 <span className="font-bold">National ID Document : </span>
                 {user.profile ? (
                   <a
-                    href={
-                      process.env.REACT_APP_BASE_API_URL +
-                      user.profile?.nationalIdDocument
-                    }
+                    href={`
+                      ${process.env.REACT_APP_BASE_API_URL}api/${user.profile?.nationalIdDocument}`}
                     target="blank"
                     className="text-primary underline"
                   >

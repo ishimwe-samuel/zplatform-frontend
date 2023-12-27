@@ -17,6 +17,7 @@ export default function ProfileForm() {
   const [documentImage, setDocumentImage] = useState();
   const [documentTempImage, setDocumentTempImage] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
   let ls = new SecureLS({
     encodingType: "aes",
     encryptionSecret: process.env.REACT_APP_SECRET_KEY,
@@ -38,6 +39,7 @@ export default function ProfileForm() {
   };
   const onUpdateProfile = (e) => {
     e.preventDefault();
+    setError();
     let formData = new FormData();
 
     formData.append("firstName", firstName);
@@ -66,8 +68,12 @@ export default function ProfileForm() {
         setIsLoading(false);
       })
       .catch((err) => {
-        console.log(err);
         setIsLoading(false);
+        if (err.response) {
+          setError(err.response.data.error);
+        } else {
+          setError("Something went wrong");
+        }
       });
   };
   useEffect(() => {
@@ -80,10 +86,10 @@ export default function ProfileForm() {
       setNationalId(user.profile.nationalId);
       setNationality(user.profile.nationality);
       setDocumentTempImage(
-        process.env.REACT_APP_BASE_API_URL + user.profile.nationalIdDocument
+        `${process.env.REACT_APP_BASE_API_URL}api/${user.profile.nationalIdDocument}`
       );
       setTempProfileImage(
-        process.env.REACT_APP_BASE_API_URL + user.profile.profilePicture
+        `${process.env.REACT_APP_BASE_API_URL}api/${user.profile.profilePicture}`
       );
       setDocumentImage(
         process.env.REACT_APP_BASE_API_URL + user.profile.profilePicture
@@ -274,13 +280,15 @@ export default function ProfileForm() {
                   PNG, JPG or GIF (MAX. 800x400px).
                 </p>
               )}
-              <a
-                href={documentTempImage}
-                target="blank"
-                className="underline text-primary"
-              >
-                VIEW
-              </a>
+              {documentTempImage && (
+                <a
+                  href={documentTempImage}
+                  target="blank"
+                  className="underline text-primary"
+                >
+                  View Document
+                </a>
+              )}
             </div>
           </div>
           <div>

@@ -114,10 +114,7 @@ export default function UsersList() {
                       {user.profile !== null ? (
                         <img
                           className="h-10 rounded-full w-10"
-                          src={
-                            process.env.REACT_APP_BASE_API_URL +
-                            user.profile?.profilePicture
-                          }
+                          src={`${process.env.REACT_APP_BASE_API_URL}api/${user.profile?.profilePicture}`}
                           alt="user-profile"
                         />
                       ) : (

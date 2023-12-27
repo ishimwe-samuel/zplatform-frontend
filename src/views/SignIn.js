@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import SecureLS from "secure-ls";
 import axios from "../utils/axios";
+import Spinner from "../Components/Spinner";
 
 const SignIn = () => {
   const [emailVerified, setEmailVerified] = useState(false);
@@ -9,6 +10,7 @@ const SignIn = () => {
   const [password, setPassword] = useState("");
   const [isLinkAuth, setIsLinkAuth] = useState(false);
   const [isOTPAuth, setIsOTPAuth] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [error, setError] = useState();
   const navigate = useNavigate();
@@ -19,10 +21,13 @@ const SignIn = () => {
   const onSignIn = (e) => {
     e.preventDefault();
     setError();
+    setIsLoading(true)
     if (emailVerified) {
       axios
         .post("/auth/sign-in/", JSON.stringify({ email, password }))
         .then((res) => {
+        setIsLoading(false)
+
           if (isOTPAuth) {
             navigate("/signin/otp", { replace: true });
           } else {
@@ -32,6 +37,8 @@ const SignIn = () => {
           }
         })
         .catch((err) => {
+        setIsLoading(false)
+
           if (err.response) {
             setError(err.response.data.error);
           }
@@ -40,6 +47,8 @@ const SignIn = () => {
       axios
         .post("/auth/pre-auth/", JSON.stringify({ email }))
         .then((res) => {
+        setIsLoading(false)
+
           if (res.data.mfa.authType === "PASSWORD") {
             setEmailVerified(true);
           } else {
@@ -54,6 +63,8 @@ const SignIn = () => {
           }
         })
         .catch((err) => {
+        setIsLoading(false)
+
           if (err.response) {
             setError(err.response.data.error);
           }
@@ -133,9 +144,9 @@ const SignIn = () => {
                 {error && <p class="text-red-500 text-xs italic">{error}</p>}
                 <button
                   type="submit"
-                  className="bg-primary/80 hover:bg-primary text-white w-full dark:text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  className="flex justify-center gap-2 items-center bg-primary/80 hover:bg-primary text-white w-full dark:text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
-                  Sign in
+                  Sign in {isLoading && <Spinner />}
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Don’t have an account yet?{" "}
