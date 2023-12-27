@@ -4,7 +4,7 @@ import SecureLS from "secure-ls";
 //
 const instance = axios.create({
   baseURL: `${process.env.REACT_APP_BASE_API_URL}api/v1`,
-  timeout: 1000,
+  timeout: 1000 * 5, //
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
