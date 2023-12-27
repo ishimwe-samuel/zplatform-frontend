@@ -3,14 +3,16 @@ import { Link, useNavigate } from "react-router-dom";
 import SecureLS from "secure-ls";
 import axios from "../utils/axios";
 
-const Login = () => {
+const SignIn = () => {
   const [emailVerified, setEmailVerified] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLinkAuth, setIsLinkAuth] = useState(false);
+  const [error, setError] = useState();
   const navigate = useNavigate();
-  const onLogin = (e) => {
+  const onSignIn = (e) => {
     e.preventDefault();
+    setError();
     if (emailVerified) {
       axios
         .post("/auth/sign-in/", JSON.stringify({ email, password }))
@@ -22,6 +24,10 @@ const Login = () => {
           ls.set("token", res.data.token);
           ls.set("user", res.data.user);
           navigate("/", { replace: true });
+        }).catch(err=>{
+          if (err.response) {
+            setError(err.response.data.error);
+          }
         });
     } else {
       axios
@@ -34,11 +40,14 @@ const Login = () => {
               setEmailVerified(false);
               setIsLinkAuth(true);
             } else {
+              // implement
             }
           }
         })
         .catch((err) => {
-          console.log(err);
+          if (err.response) {
+            setError(err.response.data.error);
+          }
         });
     }
   };
@@ -57,11 +66,11 @@ const Login = () => {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Sign in to your account
               </h1>
-              <form className="space-y-4 md:space-y-6" onSubmit={onLogin}>
+              <form className="space-y-4 md:space-y-6" onSubmit={onSignIn}>
                 <div>
                   <label
                     htmlFor="email"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="flex mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Your email
                   </label>
@@ -88,7 +97,7 @@ const Login = () => {
                   <div>
                     <label
                       htmlFor="password"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      className="flex mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
                       Password
                     </label>
@@ -105,7 +114,6 @@ const Login = () => {
                   </div>
                 )}
                 <div className="flex items-center justify-between">
-
                   <Link
                     to={"/"}
                     className="text-sm font-medium text-primary-600 hover:underline dark:text-white"
@@ -113,6 +121,7 @@ const Login = () => {
                     Forgot password?
                   </Link>
                 </div>
+                {error && <p class="text-red-500 text-xs italic">{error}</p>}
                 <button
                   type="submit"
                   className="bg-primary/80 hover:bg-primary text-white w-full dark:text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
@@ -122,7 +131,7 @@ const Login = () => {
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Don’t have an account yet?{" "}
                   <Link
-                    to={"/"}
+                    to={"/signup"}
                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                   >
                     Sign up
@@ -137,4 +146,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignIn;

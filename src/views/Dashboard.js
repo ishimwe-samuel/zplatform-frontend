@@ -16,7 +16,7 @@ export default function Dashboard() {
   let user = ls.get("user");
   useEffect(() => {
     if (!localStorage.getItem("token")) {
-      navigate("/login", { replace: true });
+      navigate("/signin", { replace: true });
     }
     if (token && userId) {
       onLinkLogin();
@@ -36,14 +36,14 @@ export default function Dashboard() {
       })
       .catch((err) => {
         ls.removeAll();
-        navigate("/login", { replace: true });
+        navigate("/signin", { replace: true });
       });
   };
 useEffect(()=>{
   return ()=>{
     if (!ls.get('token')) {
       ls.clear()
-      navigate('/login',{replace:true})
+      navigate('/signin',{replace:true})
     }
   }
 },[])

@@ -15,7 +15,7 @@ export default function NavigationBar() {
   const onSignOut = (e) => {
     e.preventDefault();
     ls.removeAll();
-    navigate("/login", { replace: true });
+    navigate("/signin", { replace: true });
   };
   const generateRoutes = () =>
     routes.map((e, idx) => {
