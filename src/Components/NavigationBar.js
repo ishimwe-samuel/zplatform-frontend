@@ -91,8 +91,7 @@ export default function NavigationBar() {
                             className="h-8 w-8 rounded-full"
                             src={
                               user.profile &&
-                              process.env.REACT_APP_BASE_API_URL +
-                                user.profile.profilePicture
+                              process.env.REACT_APP_BASE_API_URL + user.profile.profilePicture
                             }
                             alt=""
                           />

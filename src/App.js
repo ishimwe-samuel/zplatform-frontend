@@ -7,6 +7,9 @@ import SignIn from "./views/SignIn";
 import SecureLS from "secure-ls";
 import SignUp from "./views/SignUp";
 import OTP from "./views/OTP";
+import ForgotPassword from "./views/ForgotPassword";
+import ResetPassword from "./views/ResetPassword";
+import MFAOTP from "./views/MFAOTP";
 
 function App() {
   let ls = new SecureLS({
@@ -19,9 +22,12 @@ function App() {
       <Routes>
         <Route element={<SignIn />} exact path="/signin" />
         <Route element={<SignUp />} exact path="/signup" />
+        <Route element={<ForgotPassword />} exact path="/forgot-password" />
+        <Route element={<ResetPassword />} exact path="/reset-password/:token/:userId" />
+        <Route element={<OTP />} exact path="/otp" />
+        <Route element={<MFAOTP />} exact path="/signin/otp" />
         <Route element={<Dashboard />} exact path="/" />
         <Route element={<Dashboard />} exact path="/:token/:userId" />
-        <Route element={<OTP />} exact path="/otp" />
         {user && user.admin && (
           <>
             <Route element={<UsersList />} exact path="/users" />

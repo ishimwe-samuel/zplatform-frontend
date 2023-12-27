@@ -8,8 +8,14 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLinkAuth, setIsLinkAuth] = useState(false);
+  const [isOTPAuth, setIsOTPAuth] = useState(false);
+
   const [error, setError] = useState();
   const navigate = useNavigate();
+  let ls = new SecureLS({
+    encodingType: "aes",
+    encryptionSecret: process.env.REACT_APP_SECRET_KEY,
+  });
   const onSignIn = (e) => {
     e.preventDefault();
     setError();
@@ -17,14 +23,15 @@ const SignIn = () => {
       axios
         .post("/auth/sign-in/", JSON.stringify({ email, password }))
         .then((res) => {
-          let ls = new SecureLS({
-            encodingType: "aes",
-            encryptionSecret: process.env.REACT_APP_SECRET_KEY,
-          });
-          ls.set("token", res.data.token);
-          ls.set("user", res.data.user);
-          navigate("/", { replace: true });
-        }).catch(err=>{
+          if (isOTPAuth) {
+            navigate("/signin/otp", { replace: true });
+          } else {
+            ls.set("token", res.data.token);
+            ls.set("user", res.data.user);
+            navigate("/", { replace: true });
+          }
+        })
+        .catch((err) => {
           if (err.response) {
             setError(err.response.data.error);
           }
@@ -40,7 +47,9 @@ const SignIn = () => {
               setEmailVerified(false);
               setIsLinkAuth(true);
             } else {
-              // implement
+              ls.set("userId", res.data.userId);
+              setEmailVerified(true);
+              setIsOTPAuth(true);
             }
           }
         })
@@ -56,7 +65,7 @@ const SignIn = () => {
       <section className="bg-gray-50 dark:bg-gray-900">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <Link
-            to={"/dashboard"}
+            to={"/signin"}
             className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
           >
             Welcome to zPlatform!
@@ -115,7 +124,7 @@ const SignIn = () => {
                 )}
                 <div className="flex items-center justify-between">
                   <Link
-                    to={"/"}
+                    to={"/forgot-password"}
                     className="text-sm font-medium text-primary-600 hover:underline dark:text-white"
                   >
                     Forgot password?

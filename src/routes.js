@@ -36,7 +36,7 @@ export const routes = [
     path: "/users/:userId/",
     name: "User List",
     component: <UserDetails />,
-    isVisible: true,
+    isVisible: false,
     accessType: "ADMIN",
   },
 ];
