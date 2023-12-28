@@ -44,7 +44,13 @@ you should be able to run the frontend
 
 ## Demo
 please access this link for a quick demo \
+use these credentials to sign in as an admin \
+**Email**: admin@zplatform.com \
+**password**: Zplatformadmin@123$ 
+
 https://zplatform.samueldev.com
+
+
 
 
 ## Authors
