@@ -64,7 +64,6 @@ export default function ProfileForm() {
         let user = ls.get("user");
         user.profile = res.data;
         ls.set("user", user);
-        console.log(ls.get("user"));
         setIsLoading(false);
       })
       .catch((err) => {

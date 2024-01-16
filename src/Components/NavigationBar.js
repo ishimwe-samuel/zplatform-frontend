@@ -51,7 +51,6 @@ export default function NavigationBar() {
         return null;
       }
     });
-
   return (
     <>
       <Disclosure as="nav" className="bg-gray-800">
@@ -87,12 +86,14 @@ export default function NavigationBar() {
                         <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                           <span className="absolute -inset-1.5" />
                           <span className="sr-only">Open user menu</span>
-                          {user.profile && (
+                          {user.profile ? (
                             <img
                               className="h-8 w-8 rounded-full"
                               src={`${process.env.REACT_APP_BASE_API_URL}api/${user.profile.profilePicture}`}
                               alt=""
                             />
+                          ) : (
+                            <div className="h-10 w-10 rounded-full border"></div>
                           )}
                         </Menu.Button>
                       </div>
@@ -128,9 +129,9 @@ export default function NavigationBar() {
                     </Menu>
                   </div>
                 </div>
-                <div className="-mr-2 flex md:hidden">
+                <div className="-mr-2 bg-white border flex h-10 md:hidden rounded-full w-10">
                   {/* Mobile menu button */}
-                  <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                  <Disclosure.Button className="relative inline-flex items-center justify-center rounded-full border w-10 bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                     <span className="absolute -inset-0.5" />
                     <span className="sr-only">Open main menu</span>
                     {open ? <></> : <></>}
@@ -199,6 +200,7 @@ export default function NavigationBar() {
                   </Disclosure.Button>
                   <Disclosure.Button
                     as="a"
+                    onClick={onSignOut}
                     className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                   >
                     Sign out

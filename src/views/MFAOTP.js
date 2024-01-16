@@ -20,7 +20,6 @@ const MFAOTP = () => {
     axios
       .post("/auth/verify-otp/", JSON.stringify({ otp: OTP, userId }))
       .then((res) => {
-        console.log(res.data);
         setIsLoading(false);
         ls.set("token", res.data.token);
         ls.set("user", res.data.user);
